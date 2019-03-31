@@ -4,13 +4,13 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 
-public class OperatorHandler {
+public class CustumerHandler {
     private Server server;
     private Socket socket;
     private ObjectInputStream in;
     private DataOutputStream out;
 
-    public OperatorHandler(Server server, Socket socket, ExecutorService exService) throws IOException {
+    public CustumerHandler(Server server, Socket socket, ExecutorService exService) throws IOException {
 
         this.server = server;
         this.socket = socket;
@@ -23,7 +23,7 @@ public class OperatorHandler {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            } finally {
-//                OperatorHandler.this.disconnect();
+//                CustumerHandler.this.disconnect();
 //            }
         });
     }

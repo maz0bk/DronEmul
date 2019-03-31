@@ -1,9 +1,10 @@
-import java.io.DataInputStream;
+import jdk.nashorn.internal.runtime.JSONFunctions;
+
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.security.SecureRandom;
 import java.util.concurrent.ExecutorService;
 
 public class ClientHandler {
@@ -34,7 +35,8 @@ public class ClientHandler {
 
         try {
             DronData dt = (DronData) in.readObject();
-            System.out.println("h="+dt.getH()+" T="+dt.getT());
+            System.out.println(dt.getJson());
+//            System.out.println("h="+dt.getH()+" T="+dt.getT());
 
         } catch (ClassNotFoundException e) {
             return false;
@@ -66,12 +68,15 @@ public class ClientHandler {
     private boolean checkAuth() throws IOException {
         String msg = null;
         try {
-            msg = (String)in.readObject();
+            Object o = in.readObject();
+
+//            msg = (String)in.readObject();
+            msg = (String)o;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         // /auth iddroid uid
-        if (msg.startsWith("/auth ")) {
+        if (msg.startsWith("//auth ")) {
             String[] tokens = msg.split("\\s");
             return server.getAuthService().getDroidByIDAndUID(tokens[1], tokens[2]);
 

@@ -7,7 +7,7 @@ public class SQLHandler {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/droiddelivery?serverTimezone=UTC", "root", "FlySky128#");
-            psGetByIDadnUID = connection.prepareStatement("SELECT id FROM droiddelivery.droids where iddroid = ? and uid = ?;");
+            psGetByIDadnUID = connection.prepareStatement("SELECT iddroid FROM droiddelivery.droids where iddroid = ? and uid = ?;");
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

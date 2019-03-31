@@ -1,6 +1,4 @@
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class MainDron {
@@ -9,6 +7,7 @@ public class MainDron {
     private static ObjectOutputStream out;
 
     public static void main(String[] args) {
+        System.out.println(new File(".").getAbsolutePath());
         try {
             socket = new Socket("localhost", 8189);
             in = new DataInputStream(socket.getInputStream());
@@ -38,31 +37,38 @@ public class MainDron {
             });
             clientListenerThread.setDaemon(true);
             clientListenerThread.start();
-            Dron dron = new Dron(1, "a");
-            sendAuth("//auth "+dron.getId() +" "+dron.getUid());
+            Dron dron = new Dron(2, "b");
+            String authStr= "//auth "+dron.getId() +" "+dron.getUid();
+            while(!sendAuth(authStr));
             while (dron.isFly()){
-               sendMsg(dron.getCurrentPosition());
+                DronData dt = dron.getCurrentPosition();
 
+                System.out.println(dt.getJson());
+//               sendMsg(dron.getCurrentPosition());
+
+            //отправляем данные оператору или клиенту
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void sendAuth(String auth) {
+    private static boolean sendAuth(String auth) {
         try {
             out.writeObject(auth);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     public static boolean sendMsg(DronData dt) {
         try {
             out.writeObject(dt);
-            Thread.sleep(10000);
+//            Thread.sleep(10000);
             return true;
-        } catch (IOException|InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }

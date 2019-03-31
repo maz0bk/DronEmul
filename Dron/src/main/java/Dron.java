@@ -3,6 +3,7 @@ public class Dron {
     private int id;
     private String uid;
     private boolean isFly;
+    private DronData currentPosition;
 
     public boolean isFly() {
         return isFly;
@@ -16,8 +17,10 @@ public class Dron {
     }
 
     public DronData getCurrentPosition(){
+        currentPosition = DronStub.nextPoint(id);
+        currentPosition.setIdUID(Integer.toString(id),uid);
+        return currentPosition;
 
-    return new DronData();
     }
 
     public String getUid() {

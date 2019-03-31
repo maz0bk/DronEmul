@@ -1,8 +1,21 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.io.Serializable;
 
+@JsonAutoDetect
 public class DronData implements Serializable{
+    private String id,uid;
     private double lat, lon, h;
     long t;
+
+    public void setIdUID(String id, String uid) {
+        this.id = id;
+        this.uid = uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public DronData(){
         this.lat = 55.743812;
@@ -32,6 +45,19 @@ public class DronData implements Serializable{
 //                "lat": "55.74381200",
 //                "lon": "37.87296300",
 //                "h": "156",
-//                "t":"2355844586682"
+//                "t":"2355844586682"}
+
+    public void setT(long t) {
+        this.t = t;
+    }
+    public String getJson(){
+        StringBuilder sb= new StringBuilder().append("{\"dronID\":"+"\""+id+"\",");
+        sb.append("\"dronUID\":"+"\""+uid+"\",");
+        sb.append("\"lat\":"+lat+",");
+        sb.append("\"lon\":"+lon+",");
+        sb.append("\"h\":"+h+",");
+        sb.append("\"t\":"+t+"}");
+        return sb.toString();
+    }
 //    }
 }
